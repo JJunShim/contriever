@@ -11,7 +11,7 @@ class TemporalClassifier:
         self.model = Gemma3ForConditionalGeneration.from_pretrained(
             model_id, device_map=device
         ).eval()
-        self.processor = AutoProcessor.from_pretrained(model_id)
+        self.processor = AutoProcessor.from_pretrained(model_id, use_fast=True)
 
     def classify(self, query: str, system_prompt: str) -> bool:
         """질문을 받아서 True/False로 판별"""
@@ -90,7 +90,7 @@ Input: "Which planet is the largest in the Solar System?"
 Output: False
 """
 
-    target_dirs = ["msmarco", "hotpotqa", "fever"]
+    target_dirs = ["fever",]
     dirs = [d for d in target_dirs if os.path.isdir(os.path.join(BASE_DIR, d))]
 
     for dir_name in dirs:
