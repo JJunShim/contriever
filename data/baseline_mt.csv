@@ -1,0 +1,7 @@
+Value,Metric,Month
+22.90,NDCG5,Jan
+22.55,NDCG10,Jan
+33.04,NDCG5,Jun
+33.12,NDCG10,Jun
+45.96,NDCG5,Dec
+43.99,NDCG10,Dec
