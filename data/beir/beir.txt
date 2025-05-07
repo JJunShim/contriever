@@ -1,0 +1,31 @@
+msmarco -
+nfcorpus
+trec-covid
+nq
+hotpotqa -
+fiqa
+arguana
+webis-touche2020
+quora
+dbpedia-entity
+scidocs
+fever -
+climate-fever
+scifact
+
+
+
+
+
+
+scidocs: 1 / 1000
+webis-touche2020: 0 / 49
+scifact: 3 / 1109
+arguana: 62 / 1406
+fiqa: 128 / 6648
+nq: 64 / 3452
+nfcorpus: 2 / 3237
+trec-covid: 0 / 50
+climate-fever: 143 / 1535
+quora: 327 / 15000
+dbpedia-entity: 6 / 467
