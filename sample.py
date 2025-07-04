@@ -7,7 +7,7 @@ from transformers import AutoProcessor, Gemma3ForConditionalGeneration
 
 
 class TemporalClassifier:
-    def __init__(self, model_id: str, device: str = "cuda:0"):
+    def __init__(self, model_id: str, device: str = "auto"):
         self.model = Gemma3ForConditionalGeneration.from_pretrained(
             model_id, device_map=device
         ).eval()
@@ -63,38 +63,36 @@ class TemporalClassifier:
 
 
 def main():
-    BASE_DIR = "/mnt/hlilabshare/jjunshim/data/beir"
-    OUTPUT_DIR = "beir"
+    BASE_DIR = "/mnt/hlilabshare/khyunjin1993/tpour/"
+    OUTPUT_DIR = "data"
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     model_id = "google/gemma-3-12b-it"
-    classifier = TemporalClassifier(model_id=model_id, device="cuda:1")
+    classifier = TemporalClassifier(model_id=model_id, device="cuda:3")
 
-    PROMPT = """You are a binary classifier that detects whether a user’s question contains temporal references which may lead to different answers due to a knowledge cutoff.
-Check for words or phrases like “now,” “current,” “today,” “yesterday,” “tomorrow,” or explicit years (e.g., “in 2023”).
+    PROMPT = """You are a binary classifier that detects whether a sentence contains temporal characteristics such as changes over time, trends, specific time points, durations, or temporal sequences.
 
-- If the question contains such temporal references: output `True`.
+- If the sentence contains any temporal characteristics: output `True`.
 - Otherwise: output `False`.
 
 Examples:
-Input: "Who is the current president of South Korea?"
+Input: "The popularity of this topic has steadily grown."
 Output: True
 
-Input: "What is the value of pi?"
+Input: "The algorithm sorts items alphabetically."
 Output: False
 
-Input: "Who won the World Cup final yesterday?"
+Input: "User behavior changes significantly during holiday seasons."
 Output: True
 
-Input: "Which planet is the largest in the Solar System?"
+Input: "The model uses a standard transformer encoder."
 Output: False
 """
 
-    target_dirs = ["fever",]
-    dirs = [d for d in target_dirs if os.path.isdir(os.path.join(BASE_DIR, d))]
+    dirs = [d for d in os.listdir(BASE_DIR)]
 
     for dir_name in dirs:
-        query_path = os.path.join(BASE_DIR, dir_name, "queries.jsonl")
+        query_path = os.path.join(BASE_DIR, dir_name)
         output_path = os.path.join(OUTPUT_DIR, f"{dir_name}.jsonl")
 
         queries = classifier.read_jsonl(query_path)
